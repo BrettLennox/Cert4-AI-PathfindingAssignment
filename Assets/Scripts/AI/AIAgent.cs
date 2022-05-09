@@ -9,18 +9,16 @@ public class AIAgent : MonoBehaviour
 
     public GameObject waypointsParent;
     public List<Transform> waypoints = new List<Transform>();
-    public int waypointIndex = 0;
-
-    public float speed = 3f;
-
-    private AIStateMachine _aiStateMachine => GetComponent<AIStateMachine>();
+    private int waypointIndex = 0;
+    #endregion
+    #region Properties
+    public int WaypointIndex { get => waypointIndex; }
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
 
         foreach (Transform transform in waypointsParent.transform) //creates a list out of all child transforms within the waypointsParent gameobject
         {
@@ -32,14 +30,6 @@ public class AIAgent : MonoBehaviour
     void Update()
     {
         ResetWaypointIndex();
-        if (_aiStateMachine.currentState == AIStates.Collect) //if the AIStateMachine state is set to Collect
-        {
-            MoveToTarget(waypoints[waypointIndex]);//performs MoveTo function with the target set to the waypoints list
-        }
-        else if (_aiStateMachine.currentState == AIStates.Loiter) //if the AIStateMachine state is set to Loiter
-        {
-            MoveToTarget(transform); //performs MoveTo function with the target set to self as to not move
-        }
     }
 
     private void ResetWaypointIndex()
@@ -51,18 +41,28 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    private void MoveToTarget(Transform target)
+    public void MoveToTarget(Transform target)
     {
         if (target != this.transform)
         {
             if (Vector3.Distance(transform.position, target.position) >= 1f) //if the distance between the AI and the target are above or equal to 1f
             {
-                agent.destination = target.position; //set the NavMeshAgent destination to the targets position
+                agent.SetDestination(target.position); //set the NavMeshAgent destination to the targets position
             }
             else //if the distance between the AI and the target is below 1f
             {
                 waypointIndex++; //increment the waypointIndex value by 1
             }
         }
+        else agent.SetDestination(target.position);
+    }
+
+    public bool CheckPath()
+    {
+        if (agent.path.status != NavMeshPathStatus.PathComplete)
+        {
+            return false;
+        }
+        return true;
     }
 }
