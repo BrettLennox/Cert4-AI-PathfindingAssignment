@@ -9,7 +9,11 @@ public class AIAgent : MonoBehaviour
 
     public GameObject waypointsParent;
     public List<Transform> waypoints = new List<Transform>();
-    private int waypointIndex = 0;
+    [SerializeField] private int waypointIndex = 0;
+    public int collectiblesRemaining;
+
+    public Transform key;
+    public bool keyCollected;
     #endregion
     #region Properties
     public int WaypointIndex { get => waypointIndex; }
@@ -29,7 +33,7 @@ public class AIAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ResetWaypointIndex();
+        collectiblesRemaining = waypoints.Count;
     }
 
     private void ResetWaypointIndex()
@@ -51,7 +55,18 @@ public class AIAgent : MonoBehaviour
             }
             else //if the distance between the AI and the target is below 1f
             {
-                waypointIndex++; //increment the waypointIndex value by 1
+                if (target == key)
+                {
+                    //collect key
+                    keyCollected = true;
+                    key.gameObject.SetActive(false);
+                    Debug.Log("COLLECT KEY");
+                }
+                else if (target == waypoints[waypointIndex])
+                {
+                    waypointIndex++; //increment the waypointIndex value by 1
+                    ResetWaypointIndex();
+                }
             }
         }
         else agent.SetDestination(target.position);

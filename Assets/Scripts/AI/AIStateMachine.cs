@@ -8,6 +8,7 @@ public class AIStateMachine : MonoBehaviour
     #region Variables
     public AIStates currentState;
     private AIAgent _aiAgent => GetComponent<AIAgent>();
+    private DoorBehaviour door => GetComponent<DoorBehaviour>();
     #endregion
 
     // Start is called before the first frame update
@@ -23,11 +24,11 @@ public class AIStateMachine : MonoBehaviour
             case AIStates.Loiter:
                 StartCoroutine(LoiterRoutine());
                 break;
-            case AIStates.Collect:
-                StartCoroutine(CollectRoutine());
+            case AIStates.CollectCollectible:
+                StartCoroutine(CollectCollectibleRoutine());
                 break;
-            case AIStates.Check:
-                StartCoroutine(CheckRoutine());
+            case AIStates.CollectKey:
+                StartCoroutine(CollectKeyRoutine());
                 break;
         }
     }
@@ -42,26 +43,30 @@ public class AIStateMachine : MonoBehaviour
         NextState();
     }
 
-    private IEnumerator CollectRoutine()
+    private IEnumerator CollectCollectibleRoutine()
     {
-        while (currentState == AIStates.Collect) //while current state is set to AIStates Collect
+        while (currentState == AIStates.CollectCollectible) //while current state is set to AIStates CollectCollectible
         {
             _aiAgent.MoveToTarget(_aiAgent.waypoints[_aiAgent.WaypointIndex]); //sets the MoveToTarget to be the waypoints list at index waypointsIndex
             if (!_aiAgent.CheckPath()) //if the path is unreachable
             {
-                currentState = AIStates.Check; //switch to the Check state
+                currentState = AIStates.CollectKey; //switch to the Check state
             }
             yield return null;
         }
         NextState();
     }
 
-    private IEnumerator CheckRoutine() //while current state is set to AIStates Check
+    private IEnumerator CollectKeyRoutine() 
     {
-        while (currentState == AIStates.Check)
+        while (currentState == AIStates.CollectKey) //while current state is set to AIStates CollectKey
         {
-            _aiAgent.MoveToTarget(transform);
-            Debug.Log("CHECK");
+            if (_aiAgent.keyCollected)
+            {
+                currentState = AIStates.CollectCollectible; //switch to CollectCollectible state
+                NextState();
+            }
+            _aiAgent.MoveToTarget(_aiAgent.key); //sets the MoveToTarget to be the key
             yield return null;
         }
         NextState();
@@ -71,6 +76,7 @@ public class AIStateMachine : MonoBehaviour
 public enum AIStates
     {
         Loiter,
-        Collect,
-        Check
+        CollectCollectible,
+        CollectKey,
+        UnlockDoor
     }

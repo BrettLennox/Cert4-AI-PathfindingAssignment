@@ -10,7 +10,12 @@ public class DoorBehaviour : MonoBehaviour
     public List<Transform> childWalls;
     public NavMeshObstacle navMeshObstacle => GetComponent<NavMeshObstacle>();
 
-    public bool isLocked;
+    private bool isLocked = true;
+
+    private AIAgent _aiAgent => GameObject.Find("AIAgent").GetComponent<AIAgent>();
+    #endregion
+    #region Properties
+    public bool IsLocked { get => isLocked; set => value = isLocked; }
     #endregion
 
     // Start is called before the first frame update
@@ -22,6 +27,7 @@ public class DoorBehaviour : MonoBehaviour
     private void Update()
     {
         lockState = isLocked ? LockState.Closed : LockState.Open;
+        isLocked = _aiAgent.keyCollected ? false : true;
     }
 
     private void NextState()
@@ -53,7 +59,6 @@ public class DoorBehaviour : MonoBehaviour
 
     private void ShouldShowDoor(bool shouldShow)
     {
-        //navMeshObstacle.carving = shouldShow;
         foreach (Transform transform in transform)
         {
             transform.gameObject.SetActive(shouldShow);
