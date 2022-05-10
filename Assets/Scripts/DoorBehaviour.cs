@@ -7,12 +7,10 @@ public class DoorBehaviour : MonoBehaviour
 {
     #region Variables
     public LockState lockState;
-    public List<Transform> childWalls;
-    public NavMeshObstacle navMeshObstacle => GetComponent<NavMeshObstacle>();
 
     private bool isLocked = true;
 
-    private AIAgent _aiAgent => GameObject.Find("AIAgent").GetComponent<AIAgent>();
+    private AIAgent _aiAgent => GameObject.Find("Agent").GetComponent<AIAgent>();
     #endregion
     #region Properties
     public bool IsLocked { get => isLocked; set => value = isLocked; }
@@ -26,8 +24,8 @@ public class DoorBehaviour : MonoBehaviour
 
     private void Update()
     {
-        lockState = isLocked ? LockState.Closed : LockState.Open;
-        isLocked = _aiAgent.keyCollected ? false : true;
+        lockState = isLocked ? LockState.Closed : LockState.Open; //lockState is set based on isLocked value. True being closed. False being open
+        isLocked = _aiAgent.KeyCollected ? false : true; //isLocked is set based on the KeyCollected value from AIAgent. True being isLocked is false. False being isLocked is true
     }
 
     private void NextState()
@@ -43,14 +41,14 @@ public class DoorBehaviour : MonoBehaviour
         }
     }
 
-    private IEnumerator OpenRoutine()
+    private IEnumerator OpenRoutine() //if the door is in OpenRoutine sets ShouldShowDoor to false
     {
         ShouldShowDoor(false);
         yield return null;
         NextState();
     }
 
-    private IEnumerator CloseRoutine()
+    private IEnumerator CloseRoutine() //if the door is in CloseRoutine sets ShouldShowDoor to true
     {
         ShouldShowDoor(true);
         yield return null;
@@ -59,10 +57,7 @@ public class DoorBehaviour : MonoBehaviour
 
     private void ShouldShowDoor(bool shouldShow)
     {
-        foreach (Transform transform in transform)
-        {
-            transform.gameObject.SetActive(shouldShow);
-        }
+        transform.gameObject.SetActive(shouldShow); //sets active in relation to bool passed in
     }
 
     public enum LockState
