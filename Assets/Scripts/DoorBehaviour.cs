@@ -10,7 +10,7 @@ public class DoorBehaviour : MonoBehaviour
 
     private bool isLocked = true;
 
-    private AIAgent _aiAgent => GameObject.Find("Agent").GetComponent<AIAgent>();
+    private AIAgent _aiAgent => GameObject.FindGameObjectWithTag("CollectorAgent").GetComponent<AIAgent>();
     #endregion
     #region Properties
     public bool IsLocked { get => isLocked; set => value = isLocked; }
@@ -28,7 +28,7 @@ public class DoorBehaviour : MonoBehaviour
         isLocked = _aiAgent.KeyCollected ? false : true; //isLocked is set based on the KeyCollected value from AIAgent. True being isLocked is false. False being isLocked is true
     }
 
-    private void NextState()
+    private void NextState() //starts the coroutine based on the lockState set
     {
         switch (lockState)
         {

@@ -6,17 +6,31 @@ public class AIStateMachine : MonoBehaviour
 {
 
     #region Variables
-    public AIStates currentState;
+    private AIStates currentState;
     private AIAgent _aiAgent => GetComponent<AIAgent>();
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        SetStartState();
         NextState();
     }
 
-    private void NextState()
+    private void SetStartState()
+    {
+        switch (_aiAgent.AITypes) //sets the currentState depending on what the AIType is
+        {
+            case AITypes.Collector:
+                currentState = AIStates.CollectCollectible;
+                break;
+            case AITypes.Patroller:
+                currentState = AIStates.Patrol;
+                break;
+        }
+    }
+
+    private void NextState() //starts the set coroutine based on the currentState set
     {
         switch (currentState)
         {
@@ -28,6 +42,9 @@ public class AIStateMachine : MonoBehaviour
                 break;
             case AIStates.CollectKey:
                 StartCoroutine(CollectKeyRoutine());
+                break;
+            case AIStates.Patrol:
+                StartCoroutine(PatrolRoutine());
                 break;
         }
     }
@@ -46,9 +63,9 @@ public class AIStateMachine : MonoBehaviour
     {
         while (currentState == AIStates.CollectCollectible) //while current state is set to AIStates CollectCollectible
         {
-            if (_aiAgent.Waypoints[0] != null) //if Waypoints list has active elements in it
+            if (_aiAgent.Collectibles[0] != null) //if Waypoints list has active elements in it
             {
-                _aiAgent.MoveToTarget(_aiAgent.Waypoints[_aiAgent.WaypointIndex]); //sets the MoveToTarget to be the waypoints list at index waypointsIndex
+                _aiAgent.MoveToTarget(_aiAgent.Collectibles[_aiAgent.CollectibleIndex]); //sets the MoveToTarget to be the waypoints list at index waypointsIndex
                 if (!_aiAgent.CheckPath()) //if AIAgent NavMeshPath is unreachable (based on CheckPath function in AIAgent)
                 {
                     currentState = AIStates.CollectKey; //switch to CollectKey state
@@ -79,6 +96,17 @@ public class AIStateMachine : MonoBehaviour
         }
         NextState();
     }
+
+    private IEnumerator PatrolRoutine()
+    {
+        while (currentState == AIStates.Patrol) //while the current state is set to AIStates Patrol
+        {
+            Debug.Log("TEST");
+            _aiAgent.MoveToTarget(_aiAgent.Waypoints[_aiAgent.WaypointIndex]); //sets the MoveToTarget to be the Waypoints list at WaypointIndex
+            yield return null;
+        }
+        NextState();
+    }
 }
 [System.Serializable]
 public enum AIStates
@@ -86,4 +114,5 @@ public enum AIStates
     Loiter,
     CollectCollectible,
     CollectKey,
+    Patrol
 }

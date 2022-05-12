@@ -4,32 +4,33 @@ using UnityEngine;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    private AIAgent _aiAgent => GameObject.Find("Agent").GetComponent<AIAgent>();
+    private AIAgent _aiAgent => GameObject.FindGameObjectWithTag("CollectorAgent").GetComponent<AIAgent>();
     [SerializeField] private CollectibleType _collectibleType;
+
     private void OnTriggerEnter(Collider other)
     {
         var AIAgent = other.GetComponent<AIAgent>();
-        if (AIAgent)
+        if (AIAgent) //if AIAgent enters the trigger of this gameobject
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject); //destroy this game object
         }
     }
 
-    private void OnDestroy()
+    private void OnDestroy() //when this gameobject is destroyed
     {
         switch (_collectibleType)
         {
-            case CollectibleType.GraveStone:
-                for (int i = 0; i < _aiAgent.Waypoints.Count - 1; i++)
+            case CollectibleType.GraveStone: //if CollectibleType is GraveStone
+                for (int i = 0; i < _aiAgent.Collectibles.Count - 1; i++)
                 {
-                    if (_aiAgent.Waypoints[i].gameObject == this.gameObject)
+                    if (_aiAgent.Collectibles[i].gameObject == this.gameObject) //if this gameobject matches with a gameobject in Collectibles list
                     {
-                        _aiAgent.Waypoints.RemoveAt(i);
+                        _aiAgent.Collectibles.RemoveAt(i); //remove it at that point of the list
                     }
                 }
                 break;
-            case CollectibleType.Key:
-                _aiAgent._keyCollected = true;
+            case CollectibleType.Key: //if CollectibleType is Key
+                _aiAgent._keyCollected = true; //sets KeyCollected to true;
                 break;
         }
     }
