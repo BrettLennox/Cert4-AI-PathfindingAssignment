@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    private AIAgent _aiAgent => GameObject.FindGameObjectWithTag("CollectorAgent").GetComponent<AIAgent>();
+    private AIAgent _aiAgent => GameObject.FindWithTag("CollectorAgent").GetComponent<AIAgent>();
     [SerializeField] private CollectibleType _collectibleType;
 
     private void OnTriggerEnter(Collider other)
