@@ -30,7 +30,7 @@ public class CollectibleBehaviour : MonoBehaviour
                 }
                 break;
             case CollectibleType.Key: //if CollectibleType is Key
-                _aiAgent._keyCollected = true; //sets KeyCollected to true;
+                _aiAgent.KeyCollected = true; //sets KeyCollected to true;
                 break;
         }
     }

@@ -30,7 +30,7 @@ public class AIAgent : MonoBehaviour
     public List<Transform> Collectibles { get => _collectibles; }
     public int CollectibleIndex { get => _collectiblesIndex; }
     public Transform Key { get => _key; }
-    public bool KeyCollected { get => _keyCollected; }
+    public bool KeyCollected { get => _keyCollected; set => _keyCollected = value; }
     public List<Transform> Waypoints { get => _waypoints; }
     public int WaypointIndex { get => _waypointIndex; }
     #endregion
