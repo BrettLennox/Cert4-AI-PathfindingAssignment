@@ -7,7 +7,7 @@ public class AIStateMachine : MonoBehaviour
 
     #region Variables
     private AIStates currentState;
-    private AIAgent _aiAgent => GetComponent<AIAgent>();
+    private AIAgentOld _aiAgent => GetComponent<AIAgentOld>();
     #endregion
 
     // Start is called before the first frame update
@@ -101,7 +101,6 @@ public class AIStateMachine : MonoBehaviour
     {
         while (currentState == AIStates.Patrol) //while the current state is set to AIStates Patrol
         {
-            Debug.Log("TEST");
             _aiAgent.MoveToTarget(_aiAgent.Waypoints[_aiAgent.WaypointIndex]); //sets the MoveToTarget to be the Waypoints list at WaypointIndex
             yield return null;
         }

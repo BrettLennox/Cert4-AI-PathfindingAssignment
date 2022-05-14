@@ -10,7 +10,7 @@ public class DoorBehaviour : MonoBehaviour
 
     private bool isLocked = true;
 
-    private AIAgent _aiAgent => GameObject.FindGameObjectWithTag("CollectorAgent").GetComponent<AIAgent>();
+    private AIAgentOld _aiAgent => GameObject.FindGameObjectWithTag("CollectorAgent").GetComponent<AIAgentOld>();
     #endregion
     #region Properties
     public bool IsLocked { get => isLocked; set => value = isLocked; }

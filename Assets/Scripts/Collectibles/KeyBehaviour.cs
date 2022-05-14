@@ -6,7 +6,7 @@ public class KeyBehaviour : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        var AIAgent = other.GetComponent<AIAgent>();
+        var AIAgent = other.GetComponent<AIAgentOld>();
         if (AIAgent)
         {
             AIAgent._keyCollected = true;

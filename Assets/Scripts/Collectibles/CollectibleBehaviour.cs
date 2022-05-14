@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    private AIAgent _aiAgent => GameObject.FindWithTag("CollectorAgent").GetComponent<AIAgent>();
+    private AIAgentOld _aiAgent => GameObject.FindWithTag("CollectorAgent").GetComponent<AIAgentOld>();
     [SerializeField] private CollectibleType _collectibleType;
 
     private void OnTriggerEnter(Collider other)
     {
-        var AIAgent = other.GetComponent<AIAgent>();
+        var AIAgent = other.GetComponent<AIAgentOld>();
         if (AIAgent) //if AIAgent enters the trigger of this gameobject
         {
             Destroy(this.gameObject); //destroy this game object
