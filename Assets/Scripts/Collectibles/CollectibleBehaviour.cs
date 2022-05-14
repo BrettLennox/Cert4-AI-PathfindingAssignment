@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    private AIAgentOld _aiAgent => GameObject.FindWithTag("CollectorAgent").GetComponent<AIAgentOld>();
+    private AICollectorAgent _aiAgent => GameObject.FindWithTag("AICollector").GetComponent<AICollectorAgent>();
+    private DoorBehaviour _door => GameObject.FindWithTag("LockedDoor").GetComponent<DoorBehaviour>();
     [SerializeField] private CollectibleType _collectibleType;
 
     private void OnTriggerEnter(Collider other)
     {
-        var AIAgent = other.GetComponent<AIAgentOld>();
-        if (AIAgent) //if AIAgent enters the trigger of this gameobject
+        var AICollector = other.tag == "AICollector";
+        if (AICollector) //if AIAgent enters the trigger of this gameobject
         {
             Destroy(this.gameObject); //destroy this game object
         }
@@ -30,7 +31,7 @@ public class CollectibleBehaviour : MonoBehaviour
                 }
                 break;
             case CollectibleType.Key: //if CollectibleType is Key
-                _aiAgent.KeyCollected = true; //sets KeyCollected to true;
+                _door.OpenDoor(); //performs OpenDoor function
                 break;
         }
     }

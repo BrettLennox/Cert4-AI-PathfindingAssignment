@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public abstract class AIAgent : MonoBehaviour
 {
     #region Variables
-    private NavMeshAgent _agent => GetComponent<NavMeshAgent>();
+    protected NavMeshAgent _agent => GetComponent<NavMeshAgent>();
     private Animator _anim => GetComponentInChildren<Animator>();
     #endregion
 
@@ -15,9 +15,9 @@ public abstract class AIAgent : MonoBehaviour
         AnimationState();
     }
 
-    public virtual void MoveToTarget(Transform target) => _agent.SetDestination(target.position);
+    protected virtual void MoveToTarget(Transform target) => _agent.SetDestination(target.position);
 
-    public virtual bool CheckPath()
+    protected virtual bool CheckPath()
     {
         if (_agent.path.status != NavMeshPathStatus.PathComplete)
         {
