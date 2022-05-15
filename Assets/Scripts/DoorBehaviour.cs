@@ -7,6 +7,6 @@ public class DoorBehaviour : MonoBehaviour
 {
     public void OpenDoor()
     {
-        transform.gameObject.SetActive(false);
+        transform.gameObject.SetActive(false); //sets the gameobject to not be active
     }
 }

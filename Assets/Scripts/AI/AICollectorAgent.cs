@@ -18,7 +18,7 @@ public class AICollectorAgent : AIAgent
 
     private void Awake()
     {
-        foreach (Transform transform in _collectiblesParent.transform)
+        foreach (Transform transform in _collectiblesParent.transform) //sets the collectibles List from the transforms within collectiblesParent gameobject
         {
             _collectibles.Add(transform);
         }
@@ -31,7 +31,7 @@ public class AICollectorAgent : AIAgent
 
     private void NextState()
     {
-        switch (_currentState)
+        switch (_currentState) //StartsCoroutine depending on currentStated
         {
             case AICollectorStates.Loiter:
                 StartCoroutine(LoiterRoutine());
@@ -56,11 +56,11 @@ public class AICollectorAgent : AIAgent
     {
         while (_currentState == AICollectorStates.Loiter)
         {
-            if(_collectibles[0] != null)
+            if(_collectibles != null) //if collectibles are not null
             {
-                _currentState = AICollectorStates.CollectCollectible;
+                _currentState = AICollectorStates.CollectCollectible; //sets currentState to be CollectCollectibles
             }
-            MoveToTarget(this.transform);
+            MoveToTarget(this.transform); //sets MoveToTarget to be this gameobjects position
             yield return null;
         }
             NextState();
@@ -70,8 +70,8 @@ public class AICollectorAgent : AIAgent
     {
         while(_currentState == AICollectorStates.CollectKey)
         {
-            if (_key != null) MoveToTarget(_key.transform);
-            else _currentState = AICollectorStates.CollectCollectible;
+            if (_key != null) MoveToTarget(_key.transform); //if key is not null //sets MoveToTarget to keys transform
+            else _currentState = AICollectorStates.CollectCollectible; //else //set currentState to be CollectCollectibles
             yield return null;
         }
             NextState();
@@ -81,17 +81,17 @@ public class AICollectorAgent : AIAgent
     {
         while(_currentState == AICollectorStates.CollectCollectible)
         {
-            if(_collectibles[0] != null)
+            if(_collectibles[0] != null) //if collectibles is not null
             {
-                MoveToTarget(_collectibles[0]);
-                if (!CheckPath())
+                MoveToTarget(_collectibles[0]); //sets MoveToTarget to be collectibles[0]
+                if (!CheckPath()) //if CheckPath returns false
                 {
-                    _currentState = AICollectorStates.CollectKey;
+                    _currentState = AICollectorStates.CollectKey; //sets currentState to be CollectKey
                 }
             }
-            else
+            else //else
             {
-                _currentState = AICollectorStates.Loiter;
+                _currentState = AICollectorStates.Loiter; //sets currentState to Loiter
             }
             yield return null;
         }

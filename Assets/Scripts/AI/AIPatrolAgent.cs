@@ -14,7 +14,7 @@ public class AIPatrolAgent : AIAgent
 
     private void Awake()
     {
-        foreach (Transform transform in _waypointsParent.transform)
+        foreach (Transform transform in _waypointsParent.transform) //sets the waypoints List from the transforms within the waypointsParent gameobject
         {
             _waypoints.Add(transform);
         }
@@ -27,7 +27,7 @@ public class AIPatrolAgent : AIAgent
 
     private void NextState()
     {
-        switch (_currentState)
+        switch (_currentState) //StartsCoroutine depending on currentStated
         {
             case AIPatrolStates.Loiter:
                 StartCoroutine(LoiterRoutine());
@@ -52,10 +52,10 @@ public class AIPatrolAgent : AIAgent
         while (_currentState == AIPatrolStates.Loiter)
         {
             
-            MoveToTarget(this.transform);
-            if (_waypoints != null && CheckPath())
+            MoveToTarget(this.transform); //sets the MoveToTarget to be this gameobject
+            if (_waypoints != null) //if waypoints is not null
             {
-                _currentState = AIPatrolStates.Patrol;
+                _currentState = AIPatrolStates.Patrol; //sets currentState to Patrol
             }
             yield return null;
         }
@@ -67,17 +67,17 @@ public class AIPatrolAgent : AIAgent
         while (_currentState == AIPatrolStates.Patrol)
         {
             float distance = Vector3.Distance(this.transform.position, _waypoints[_waypointIndex].transform.position);
-            if(distance > 0.8f)
+            if(distance > 0.8f) //if the distance from this and waypoints[waypointIndex] is greater then 0.8f
             {
-                if (!CheckPath())
+                if (!CheckPath()) //if Checkpath returns false
                 {
-                    _currentState = AIPatrolStates.Loiter;
+                    _currentState = AIPatrolStates.Loiter; //sets currentState to Loiter
                 }
-                MoveToTarget(_waypoints[_waypointIndex]);
+                MoveToTarget(_waypoints[_waypointIndex]); //sets MoveToTarget to waypoints[waypointsIndex]
             }
-            else
+            else //if the distance is not greater than 0.8f
             {
-                _waypointIndex++;
+                _waypointIndex++; //increment waypointIndex
             }
             yield return null;
         }
@@ -86,9 +86,9 @@ public class AIPatrolAgent : AIAgent
 
     private void ResetWaypointIndex()
     {
-        if(_waypointIndex > _waypoints.Count - 1)
+        if(_waypointIndex > _waypoints.Count - 1) //if waypointIndex is greater than waypoints count -1
         {
-            _waypointIndex = 0;
+            _waypointIndex = 0; //sets the waypointIndex to 0
         }
     }
 
