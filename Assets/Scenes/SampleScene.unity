@@ -1664,7 +1664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337819957}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.262, y: -0.5, z: 1}
+  m_LocalPosition: {x: 4.262, y: -0.5, z: 1.0090001}
   m_LocalScale: {x: 0.7, y: 0.6, z: 0.7}
   m_Children:
   - {fileID: 597323694060153243}
@@ -1682,7 +1682,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.125, y: 1.25, z: 1.23}
+  m_Extents: {x: 0.125, y: 1.25, z: 0.625}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -4601,7 +4601,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910137502}
   m_LocalRotation: {x: -0.4304596, y: 0.56098384, z: -0.5609857, w: 0.4304611}
-  m_LocalPosition: {x: -2.78, y: -0.285, z: -0.427}
+  m_LocalPosition: {x: -2.78, y: 2.66, z: 1.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5494,8 +5494,8 @@ Transform:
   - {fileID: 5183967}
   - {fileID: 964508633}
   - {fileID: 463467350}
-  - {fileID: 877662106}
   - {fileID: 1727747654}
+  - {fileID: 877662106}
   m_Father: {fileID: 1896014941}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7630,7 +7630,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -8672,7 +8672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5812777199544527788, guid: 0add2cb379622804dbc9b6b008dfeabb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.25
+      value: 4.243
       objectReference: {fileID: 0}
     - target: {fileID: 5812777199544527788, guid: 0add2cb379622804dbc9b6b008dfeabb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9778,7 +9778,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.083333336
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 3dabee1f048a87c4faf6db77073160a5, type: 2}
 --- !u!1001 &1896494437
