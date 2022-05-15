@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    private AICollectorAgent _aiAgent => GameObject.FindWithTag("AICollector").GetComponent<AICollectorAgent>();
-    private DoorBehaviour _door => GameObject.FindWithTag("LockedDoor").GetComponent<DoorBehaviour>();
+    private AICollectorAgent _aiAgent;
+    private DoorBehaviour _door;
     [SerializeField] private CollectibleType _collectibleType;
+
+    private void Awake()
+    {
+        _aiAgent = GameObject.Find("AICollector").GetComponent<AICollectorAgent>();
+        _door = GameObject.Find("Door").GetComponent<DoorBehaviour>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,16 +28,24 @@ public class CollectibleBehaviour : MonoBehaviour
         switch (_collectibleType)
         {
             case CollectibleType.GraveStone: //if CollectibleType is GraveStone
-                for (int i = 0; i < _aiAgent.Collectibles.Count - 1; i++)
+                if (_aiAgent != null)
                 {
-                    if (_aiAgent.Collectibles[i].gameObject == this.gameObject) //if this gameobject matches with a gameobject in Collectibles list
+                    for (int i = 0; i < _aiAgent.Collectibles.Count - 1; i++)
                     {
-                        _aiAgent.Collectibles.RemoveAt(i); //remove it at that point of the list
+                        if (_aiAgent.Collectibles[i].gameObject == this.gameObject) //if this gameobject matches with a gameobject in Collectibles list
+                        {
+                            _aiAgent.Collectibles.RemoveAt(i); //remove it at that point of the list
+                        }
                     }
                 }
+                else return;
                 break;
             case CollectibleType.Key: //if CollectibleType is Key
-                _door.OpenDoor(); //performs OpenDoor function
+                if (_door != null)
+                {
+                    _door.OpenDoor(); //performs OpenDoor function
+                }
+                else return;
                 break;
         }
     }
